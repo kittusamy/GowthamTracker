@@ -33,7 +33,6 @@ public class BaseDAO {
 	 */
 	
 	
-	
 	public static Object save(Object objectVo) throws HibernateException {
 
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
