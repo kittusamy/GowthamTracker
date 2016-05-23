@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.xwork.chaining.copyMessages" value="true" />
+	<constant name="struts.enable.SlashesInActionNames" value="true" />
+	<constant name="struts.mapper.alwaysSelectFullNamespace"
+		value="false" />
+	<constant name="struts.custom.i18n.resources" value="global" />
+
+	<package name="admin" namespace="/" extends="struts-default">
+
+		<!-- Interceptors starts -->
+		<interceptors>
+			<interceptor class="com.struts.util.AdminInterceptor"
+				name="adminInterceptor" />
+			<interceptor class="com.struts.util.UserInterceptor"
+				name="userInterceptor" />
+
+			<!-- Admin Interceptors used for admin action request -->
+			<interceptor-stack name="adminStack">
+				<interceptor-ref name="adminInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+
+			<!-- User Interceptors used for user action request -->
+			<interceptor-stack name="userStack">
+				<interceptor-ref name="userInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<!-- Interceptors ends -->
+
+
+		<!-- <default-interceptor-ref name="allStack" /> -->
+
+		<global-results>
+			<result name="login">/login.jsp</result>
+		</global-results>
+
+		<!-- Authenticate login Action -->
+		<action name="authenticate" class="com.struts.action.LoginAction">
+			<interceptor-ref name="defaultStack" />
+			<result name="adminHome" type="chain">adminHome</result>
+			<result name="userHome" type="chain">userHome</result>
+			<result name="input">/login.jsp</result>
+		</action>
+
+		<action name="logout" class="com.struts.action.LogoutAction">
+			<result name="logout">/login.jsp</result>
+		</action>
+
+		<!-- Admin Home Action -->
+		<action name="adminHome" class="com.struts.action.LoginAction"
+			method="adminHome">
+			<interceptor-ref name="adminStack" />
+			<result name="input">WEB-INF/jsp/admin/adminHome.jsp</result>
+			<result name="success">WEB-INF/jsp/admin/adminHome.jsp</result>
+		</action>
+
+		<!-- User Action starts - Admin page -->
+		<action name="viewUser" class="com.struts.action.UserAction"
+			method="viewUser">
+			<interceptor-ref name="adminStack" />
+			<result name="success">WEB-INF/jsp/admin/viewUser.jsp</result>
+			<result name="input">WEB-INF/jsp/admin/adminHome.jsp</result>
+		</action>
+
+		<action name="addUser" class="com.struts.action.UserAction"
+			method="addUser">
+			<interceptor-ref name="adminStack" />
+			<result name="success">WEB-INF/jsp/admin/addUser.jsp</result>
+		</action>
+
+		<action name="saveUser" class="com.struts.action.UserAction"
+			method="saveUser">
+			<interceptor-ref name="adminStack" />
+			<result name="success" type="chain">viewUser</result>
+			<result name="input">WEB-INF/jsp/admin/addUser.jsp</result>
+		</action>
+
+		<action name="updateUser" class="com.struts.action.UserAction"
+			method="updateUser">
+			<interceptor-ref name="adminStack" />
+			<result name="success" type="chain">viewUser</result>
+			<result name="input">WEB-INF/jsp/admin/editUser.jsp</result>
+		</action>
+
+		<action name="resetUserId/*" class="com.struts.action.UserAction"
+			method="setUserID">
+			<interceptor-ref name="adminStack" />
+			<param name="userid">{1}</param>
+			<result name="success" type="redirect">resetUser</result>
+		</action>
+
+		<action name="resetUser" class="com.struts.action.UserAction"
+			method="resetUser">
+			<interceptor-ref name="adminStack" />
+			<result name="success" type="chain">viewUser</result>
+		</action>
+
+		<action name="editUserId/*" class="com.struts.action.UserAction"
+			method="setUserID">
+			<interceptor-ref name="adminStack" />
+			<param name="userid">{1}</param>
+			<result name="success" type="redirect">editUser</result>
+		</action>
+
+		<action name="editUser" class="com.struts.action.UserAction"
+			method="editUser">
+			<interceptor-ref name="adminStack" />
+			<result name="success">WEB-INF/jsp/admin/editUser.jsp</result>
+		</action>
+
+		<action name="enableUserId/*" class="com.struts.action.UserAction"
+			method="setUserID">
+			<interceptor-ref name="adminStack" />
+			<param name="userid">{1}</param>
+			<result name="success" type="redirect">enableUser</result>
+		</action>
+
+		<action name="enableUser" class="com.struts.action.UserAction"
+			method="enableUser">
+			<interceptor-ref name="adminStack" />
+			<result name="success" type="chain">viewUser</result>
+		</action>
+
+		<action name="disableUserId/*" class="com.struts.action.UserAction"
+			method="setUserID">
+			<interceptor-ref name="adminStack" />
+			<param name="userid">{1}</param>
+			<result name="success" type="redirect">disableUser</result>
+		</action>
+
+		<action name="disableUser" class="com.struts.action.UserAction"
+			method="disableUser">
+			<interceptor-ref name="adminStack" />
+			<result name="success" type="chain">viewUser</result>
+		</action>
+		<!-- User Action ends - Admin page -->
+
+
+
+		<!-- Project Action starts - Admin page -->
+		<action name="viewProject" class="com.struts.action.ProjectAction"
+			method="viewProject">
+			<interceptor-ref name="adminStack" />
+			<result name="success">WEB-INF/jsp/admin/viewProject.jsp</result>
+			<result name="input">WEB-INF/jsp/admin/adminHome.jsp</result>
+		</action>
+
+		<action name="addProject" class="com.struts.action.ProjectAction"
+			method="addProject">
+			<interceptor-ref name="adminStack" />
+			<result name="success">WEB-INF/jsp/admin/addProject.jsp</result>
+		</action>
+
+		<action name="saveProject" class="com.struts.action.ProjectAction"
+			method="saveProject">
+			<interceptor-ref name="adminStack" />
+			<result name="success" type="chain">viewProject</result>
+			<result name="input">WEB-INF/jsp/admin/addProject.jsp</result>
+		</action>
+
+		<action name="updateProject" class="com.struts.action.ProjectAction"
+			method="updateProject">
+			<interceptor-ref name="adminStack" />
+			<result name="success" type="chain">viewProject</result>
+			<result name="reportView" type="chain">projectReport</result>
+			<result name="input">WEB-INF/jsp/admin/editProject.jsp</result>
+		</action>
+
+		<action name="viewProjectId/*" class="com.struts.action.ProjectAction"
+			method="setProjectID">
+			<interceptor-ref name="adminStack" />
+			<param name="projectid">{1}</param>
+			<result name="success" type="redirect">projectReport</result>
+		</action>
+
+		<action name="enableProjectId/*" class="com.struts.action.ProjectAction"
+			method="setProjectID">
+			<interceptor-ref name="adminStack" />
+			<param name="projectid">{1}</param>
+			<result name="success" type="redirect">enableProject</result>
+		</action>
+
+		<action name="enableProject" class="com.struts.action.ProjectAction"
+			method="enableProject">
+			<interceptor-ref name="adminStack" />
+			<result name="success" type="chain">viewProject</result>
+		</action>
+
+		<action name="disableProjectId/*" class="com.struts.action.ProjectAction"
+			method="setProjectID">
+			<interceptor-ref name="adminStack" />
+			<param name="projectid">{1}</param>
+			<result name="success" type="redirect">disableProject</result>
+		</action>
+
+		<action name="disableProject" class="com.struts.action.ProjectAction"
+			method="disableProject">
+			<interceptor-ref name="adminStack" />
+			<result name="success" type="chain">viewProject</result>
+		</action>
+
+		<action name="editProjectId/*" class="com.struts.action.ProjectAction"
+			method="editProjectId">
+			<interceptor-ref name="adminStack" />
+			<param name="projectid">{1}</param>
+			<result name="success" type="redirect">editProject</result>
+		</action>
+
+		<action name="editProjectIdView/*" class="com.struts.action.ProjectAction"
+			method="editProjectIdView">
+			<interceptor-ref name="adminStack" />
+			<param name="projectid">{1}</param>
+			<result name="success" type="redirect">editProject</result>
+		</action>
+
+		<action name="editProject" class="com.struts.action.ProjectAction"
+			method="editProject">
+			<interceptor-ref name="adminStack" />
+			<result name="success">WEB-INF/jsp/admin/editProject.jsp</result>
+		</action>
+
+		<action name="deleteProjectId/*" class="com.struts.action.ProjectAction"
+			method="setProjectID">
+			<interceptor-ref name="adminStack" />
+			<param name="projectid">{1}</param>
+			<result name="success" type="redirect">deleteProject</result>
+		</action>
+
+		<action name="deleteProject" class="com.struts.action.ProjectAction"
+			method="deleteProject">
+			<interceptor-ref name="adminStack" />
+			<result name="success" type="chain">viewProject</result>
+		</action>
+
+		<action name="deleteEffortByAdmin/*" class="com.struts.action.ProjectAction"
+			method="setEffortID">
+			<interceptor-ref name="adminStack" />
+			<param name="effortsId">{1}</param>
+			<result name="success" type="redirect">deleteEffortAdmin</result>
+		</action>
+
+		<action name="projectReport" class="com.struts.action.ProjectAction"
+			method="projectReport">
+			<interceptor-ref name="adminStack" />
+			<result name="success">WEB-INF/jsp/admin/projectReport.jsp</result>
+		</action>
+
+		<action name="deleteEffortAdmin" class="com.struts.action.ProjectAction"
+			method="deleteEffortAdmin">
+			<interceptor-ref name="adminStack" />
+			<result name="success" type="chain">projectReport</result>
+		</action>
+
+		<action name="downloadExl" class="com.struts.action.ProjectAction"
+			method="downloadExcel">
+			<result name="success" type="stream">
+				<param name="contentType">"application/vnd.ms-excel"</param>
+				<param name="inputName">excelStream</param>
+				<param name="contentDisposition">contentDisposition</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+
+
+		<!-- Project Action ends - Admin page -->
+
+
+		<!-- User Home page Action starts - User page -->
+		<action name="saveEfforts" class="com.struts.action.EffortsAction"
+			method="saveEfforts">
+			<interceptor-ref name="userStack" />
+			<result name="input">WEB-INF/jsp/user/userHome.jsp</result>
+			<result name="success" type="redirectAction">userHome</result>
+		</action>
+
+		<action name="userHome" class="com.struts.action.EffortsAction"
+			method="userHome">
+			<interceptor-ref name="userStack" />
+			<result name="input">WEB-INF/jsp/user/userHome.jsp</result>
+			<result name="success">WEB-INF/jsp/user/userHome.jsp</result>
+			<result name="resetUserPassword">WEB-INF/jsp/user/resetPassword.jsp</result>
+		</action>
+
+		<action name="resetPassword" class="com.struts.action.EffortsAction"
+			method="resetPassword">
+			<interceptor-ref name="userStack" />
+			<result name="success" type="chain">userHome</result>
+			<result name="input">WEB-INF/jsp/user/resetPassword.jsp</result>
+		</action>
+
+		<action name="deleteEffortId/*" class="com.struts.action.EffortsAction"
+			method="setEffortID">
+			<interceptor-ref name="userStack" />
+			<param name="effortsId">{1}</param>
+			<result name="success" type="redirect">deleteEffort</result>
+		</action>
+
+		<action name="deleteEffort" class="com.struts.action.EffortsAction"
+			method="deleteEffort">
+			<interceptor-ref name="userStack" />
+			<result name="success" type="chain">userHome</result>
+		</action>
+
+		<action name="editEffortId/*" class="com.struts.action.EffortsAction"
+			method="setEffortID">
+			<interceptor-ref name="userStack" />
+			<param name="effortsId">{1}</param>
+			<result name="success" type="redirect">editEffort</result>
+		</action>
+
+
+		<action name="editEffort" class="com.struts.action.EffortsAction"
+			method="editEffort">
+			<interceptor-ref name="userStack" />
+			<result name="success" type="chain">userHome</result>
+		</action>
+		<!-- User Home page Action ends - User page -->
+
+	</package>
+
+</struts>

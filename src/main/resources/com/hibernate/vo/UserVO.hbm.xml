@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="com.hibernate.vo.UserVO" table="USER_TB">
+
+		<id name="userId" type="int" column="USER_ID">
+			<generator class="assigned"></generator>
+		</id>
+
+		<property name="fullName" type="string">
+			<column name="FULL_NAME" length="20" />
+		</property>
+
+		<property name="password" type="string">
+			<column name="PASSWORD" length="20" />
+		</property>
+
+		<property name="passwordFlag" type="java.lang.Boolean">
+			<column name="PASSWORD_FLAG" sql-type="tinyint" />
+		</property>
+
+		<property name="role" type="string">
+			<column name="ROLE" length="1" />
+		</property>
+
+		<property name="isEnabled" type="java.lang.Boolean">
+			<column name="IS_ENABLE" sql-type="tinyint" />
+		</property>
+
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="19" />
+		</property>
+
+		<property name="updatedDate" type="timestamp">
+			<column name="UPDATED_DATE" length="19" />
+		</property>
+
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" length="20" />
+		</property>
+
+		<property name="updatedBy" type="string">
+			<column name="UPDATED_BY" length="20" />
+		</property>
+
+
+	</class>
+
+</hibernate-mapping>

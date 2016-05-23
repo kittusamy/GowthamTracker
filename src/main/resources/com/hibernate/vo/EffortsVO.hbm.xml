@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="com.hibernate.vo.EffortsVO" table="EFFORTS_TB">
+
+		<id name="effortId" type="int" column="EFFORT_ID">
+			<generator class="increment"></generator>
+		</id>
+
+		<many-to-one name="projectVo" column="PROJECT_ID" class="com.hibernate.vo.ProjectVO" not-null="true"/>
+
+		<many-to-one name="userVo" column="USER_ID" class="com.hibernate.vo.UserVO" not-null="true" />
+
+		<property name="effortDate" type="timestamp">
+			<column name="EFFORT_DATE" length="19" />
+		</property>
+
+		<property name="effortType" type="string">
+			<column name="EFFORT_TYPE" length="20" not-null="true" />
+		</property>
+
+		<property name="effortHrs" type="int">
+			<column name="EFFORT_HRS" />
+		</property>
+
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="19" />
+		</property>
+
+		<property name="updatedDate" type="timestamp">
+			<column name="UPDATED_DATE" length="19" />
+		</property>
+
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" length="20" />
+		</property>
+
+		<property name="updatedBy" type="string">
+			<column name="UPDATED_BY" length="20" />
+		</property>
+	</class>
+
+</hibernate-mapping>

@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="com.hibernate.vo.ProjectVO" table="PROJECT_TB">
+
+		<id name="projectId" type="int" column="PROJECT_ID">
+			<generator class="increment"></generator>
+		</id>
+
+		<property name="projectNum" type="string">
+			<column name="PROJECT_NUM" length="20" not-null="true" />
+		</property>
+		
+		<property name="projectName" type="string">
+			<column name="PROJECT_NAME" length="20" not-null="true" />
+		</property>
+		
+		<property name="startDate" type="timestamp">
+			<column name="START_DATE" length="19" />
+		</property>
+
+		<property name="endDate" type="timestamp">
+			<column name="END_DATE" length="19" />
+		</property>
+		
+		<property name="totalEstEffort" type="int">
+			<column name="T_EST_EFF"/>
+		</property>
+		<property name="designEffort" type="int">
+			<column name="DESIGN_EFF"/>
+		</property>
+		<property name="buildEffort" type="int">
+			<column name="BUILD_EFF"/>
+		</property>
+		<property name="sitEffort" type="int">
+			<column name="SIT_EFF"/>
+		</property>
+		<property name="uatEffort" type="int">
+			<column name="UAT_EFF"/>
+		</property>
+		<property name="implEffort" type="int">
+			<column name="IMPL_EFF"/>
+		</property>
+
+		<property name="isActive" type="java.lang.Boolean">
+			<column name="IS_ACTIVE" sql-type="tinyint" />
+		</property>
+		
+		<property name="isEnabled" type="java.lang.Boolean">
+			<column name="IS_ENABLE" sql-type="tinyint" />
+		</property>
+
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="19" />
+		</property>
+
+		<property name="updatedDate" type="timestamp">
+			<column name="UPDATED_DATE" length="19" />
+		</property>
+
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" length="20" />
+		</property>
+
+		<property name="updatedBy" type="string">
+			<column name="UPDATED_BY" length="20" />
+		</property>
+
+	</class>
+
+</hibernate-mapping>
