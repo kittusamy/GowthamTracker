@@ -31,6 +31,9 @@ public class BaseDAO {
 	 * Common method to save single object
 	 * 
 	 */
+	
+	
+	
 	public static Object save(Object objectVo) throws HibernateException {
 
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
